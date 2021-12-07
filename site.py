@@ -12,6 +12,7 @@ hide_menu_style  = """
             <style>
             #MainMenu {visibility: hidden; }
             footer {visibility: hidden;}
+            header {visibility: hidden;}
             </style>
             """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
@@ -80,6 +81,8 @@ def update(typee):
 
     text = text.replace(" ,", ",")
     text = text.replace(" .", ".")
+    text = text.replace(" ' ", "'")
+    text = text.replace(' - ', '-')
     return new_name, text
 
 col1, col2, col3 = st.columns([3,2,8])
@@ -94,15 +97,16 @@ button = col1.button('Create your pokemon!')
 
 if button:
     name, text = update(genre)
-    col3.write("**Name:**")
+    col3.markdown("<ins>**Name**</ins>", unsafe_allow_html=True)
     col3.markdown(f'<h1 style="text-align: center; color: white;">{name}</h1>', unsafe_allow_html=True)
     col3.markdown('&nbsp; ')
-    col3.write("**Type:**")
+    col3.markdown("<ins>**Type**</ins>", unsafe_allow_html=True)
     if genre == 'Fairy':
         col3.image(Image.open(f'{genre}.png'))
     else:
         col3.image(Image.open(f'{genre}.gif'))
-    col3.write("**Biology:**")
-    col3.write(text)
+    col3.markdown("<ins>**Biology**</ins>", unsafe_allow_html=True)
+    text2 = text.replace(name, f'***{name}***')
+    col3.write(text2)
 
 
