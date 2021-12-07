@@ -5,6 +5,8 @@ import random
 import nltk
 from nltk import word_tokenize
 tk = nltk.WordPunctTokenizer()
+from PIL import Image
+
 
 hide_menu_style  = """
             <style>
@@ -80,22 +82,28 @@ def update(typee):
     text = text.replace(" .", ".")
     return new_name, text
 
-col1, col2, col3, col4, col5 = st.columns([2,1,6,2,1])
+col1, col2, col3 = st.columns([3,2,8])
 
 
 genre = col1.radio(
-     "Choose your type",
+     "Choose your type:",
      ('Bug', 'Dark', 'Dragon', 'Electric', 'Fairy', 'Fighting', 'Fire', 'Flying', 'Ghost', 'Grass', 'Ground', 'Ice', 'Normal', 'Poison', 'Psychic', 'Rock', 'Steel', 'Water'))
 
 
-button = col3.button('Create your pokemon!')
+button = col1.button('Create your pokemon!')
 
 if button:
     name, text = update(genre)
-    col3.write(name)
-    col3.write("Biology:")
+    col3.write("**Name:**")
+    col3.markdown(f'<h1 style="text-align: center; color: white;">{name}</h1>', unsafe_allow_html=True)
+    col3.markdown('&nbsp; ')
+    col3.write("**Type:**")
+    if genre == 'Fairy':
+        col3.image(Image.open(f'{genre}.png'))
+    else:
+        col3.image(Image.open(f'{genre}.gif'))
+    col3.markdown('&nbsp; ')
+    col3.write("**Biology:**")
     col3.write(text)
-
-col5.write("Description here")
 
 
