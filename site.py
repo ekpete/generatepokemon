@@ -6,6 +6,13 @@ import nltk
 from nltk import word_tokenize
 tk = nltk.WordPunctTokenizer()
 
+hide_menu_style  = """
+            <style>
+            #MainMenu {visibility: hidden; }
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 descriptions = pickle.load( open( "descriptions.p", "rb" ) )
 pokedex = pd.read_csv("pokemonNetwork.csv")
