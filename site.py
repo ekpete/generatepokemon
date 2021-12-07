@@ -72,6 +72,7 @@ def update(typee):
 
     for name in pkmn:
         tokens = [new_name if x == name else x for x in tokens]
+    tokens = ['' if x.lower() == 'farfetch' else x for x in tokens]
     full_text = nltk.Text(tokens)
 
     state_size = 2
