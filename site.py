@@ -102,7 +102,6 @@ if button:
         col3.image(Image.open(f'{genre}.png'))
     else:
         col3.image(Image.open(f'{genre}.gif'))
-    col3.markdown('&nbsp; ')
     col3.write("**Biology:**")
     col3.write(text)
 
