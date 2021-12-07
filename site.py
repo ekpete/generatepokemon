@@ -8,14 +8,28 @@ tk = nltk.WordPunctTokenizer()
 from PIL import Image
 
 
-hide_menu_style  = """
-            <style>
-            #MainMenu {visibility: hidden; }
-            footer {visibility: hidden;}
-            header {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_menu_style, unsafe_allow_html=True)
+
+st.markdown("""
+<style>
+#MainMenu {visibility: hidden; }
+footer {visibility: hidden;}
+header {visibility: hidden;}
+</style>""", unsafe_allow_html=True)
+
+st.markdown("""
+<style>
+div.stButton > button:first-child {
+    background-color: rgb(204, 49, 49);
+}
+</style>""", unsafe_allow_html=True)
+
+st.markdown("""<style>
+.vl {
+  border-left: 1px solid white;
+  height: 600px;
+}
+</style>""", unsafe_allow_html=True)
+
 
 descriptions = pickle.load( open( "descriptions.p", "rb" ) )
 pokedex = pd.read_csv("pokemonNetwork.csv")
@@ -73,6 +87,7 @@ def update(typee):
     for name in pkmn:
         tokens = [new_name if x == name else x for x in tokens]
     tokens = ['' if x.lower() == 'farfetch' else x for x in tokens]
+    tokens = ['' if x.lower() == 'nidoran' else x for x in tokens]
     full_text = nltk.Text(tokens)
 
     state_size = 2
@@ -84,17 +99,19 @@ def update(typee):
     text = text.replace(" .", ".")
     text = text.replace(" ' ", "'")
     text = text.replace(' - ', '-')
+    text = text.replace(' ;', ';')
     return new_name, text
 
 col1, col2, col3 = st.columns([3,2,8])
 
 
 genre = col1.radio(
-     "Choose your type:",
+     "Choose your type",
      ('Bug', 'Dark', 'Dragon', 'Electric', 'Fairy', 'Fighting', 'Fire', 'Flying', 'Ghost', 'Grass', 'Ground', 'Ice', 'Normal', 'Poison', 'Psychic', 'Rock', 'Steel', 'Water'))
 
+col2.markdown('<div class="vl"></div>', unsafe_allow_html=True)
 
-button = col1.button('Create your pokemon!')
+button = col1.button('Create your Pokémon!')
 
 if button:
     name, text = update(genre)
@@ -106,6 +123,12 @@ if button:
         col3.image(Image.open(f'{genre}.png'))
     else:
         col3.image(Image.open(f'{genre}.gif'))
+    col3.markdown("<ins>**Gender**</ins>", unsafe_allow_html=True)
+    n = random.randint(1,2)
+    if n == 1:
+        col3.markdown("**♀**")
+    if n == 2:
+        col3.markdown("**♂**")
     col3.markdown("<ins>**Biology**</ins>", unsafe_allow_html=True)
     text2 = text.replace(name, f'***{name}***')
     col3.write(text2)
